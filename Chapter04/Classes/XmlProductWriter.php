@@ -1,6 +1,6 @@
 <?php
 
-namespace Chapter04;
+namespace Chapter04\Classes;
 
 use XMLWriter;
 

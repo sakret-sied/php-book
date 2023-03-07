@@ -1,6 +1,6 @@
 <?php
 
-namespace Chapter03;
+namespace Chapter03\Classes;
 
 class ShopProductWriter
 {
@@ -23,9 +23,6 @@ class ShopProductWriter
     {
         $str = '';
         foreach ($this->products as $product) {
-//            $str .= "{$product->getTitle()}: ";
-//            $str .= $product->getProducer();
-//            $str .= " ({$product->getPrice()})<br />\n";
             $str .= "{$product->getSummaryLine()} ({$product->getPrice()} руб.) <br />";
         }
         print $str;

@@ -1,13 +1,19 @@
 <?php
 
-namespace Chapter04;
+namespace Chapter04\Classes;
 
-use Chapter03\BookProduct;
-use Chapter03\CdProduct;
+use Chapter03\Classes\BookProduct;
+use Chapter03\Classes\CdProduct;
+use Chapter04\Interfaces\Chargeable;
+use Chapter04\Interfaces\IdentityObject;
+use Chapter04\Traits\IdentityTrait;
+use Chapter04\Traits\PriceUtilities;
 use PDO;
 
-class ShopProduct extends \Chapter03\ShopProduct
+class ShopProduct extends \Chapter03\Classes\ShopProduct implements Chargeable, IdentityObject
 {
+    use PriceUtilities, IdentityTrait;
+
     /** @var int */
     public const AVAILABLE = 0;
     /** @var int */
@@ -71,5 +77,13 @@ class ShopProduct extends \Chapter03\ShopProduct
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice(): float
+    {
+        return $this->price;
     }
 }

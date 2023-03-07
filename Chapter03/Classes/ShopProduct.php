@@ -1,19 +1,20 @@
 <?php
 
-namespace Chapter03;
+namespace Chapter03\Classes;
 
 class ShopProduct
 {
     /** @var float */
     protected float $price;
+
     /** @var string */
-    protected string $title;
+    private string $title;
     /** @var string */
-    protected string $producerMainName;
+    private string $producerMainName;
     /** @var string */
-    protected string $producerFirstName;
+    private string $producerFirstName;
     /** @var float */
-    protected float $discount = 0;
+    private float $discount = 0;
 
     /**
      * @param string $title

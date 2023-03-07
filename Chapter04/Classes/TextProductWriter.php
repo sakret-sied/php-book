@@ -1,6 +1,6 @@
 <?php
 
-namespace Chapter04;
+namespace Chapter04\Classes;
 
 class TextProductWriter extends ShopProductWriter
 {
@@ -9,10 +9,10 @@ class TextProductWriter extends ShopProductWriter
      */
     public function write(): void
     {
-        $str = "ТОВАРЫ:\n";
+        $str = "ТОВАРЫ:\r\n";
         foreach ($this->products as $shopProduct)
         {
-            $str .= $shopProduct->getSummaryLine() . "\n";
+            $str .= $shopProduct->getSummaryLine() . "\r\n";
         }
 
         print $str;

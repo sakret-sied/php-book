@@ -1,6 +1,6 @@
 <?php
 
-namespace Chapter04;
+namespace Chapter04\Classes;
 
 class StaticExample
 {
@@ -12,7 +12,7 @@ class StaticExample
      */
     public static function sayHello(): void
     {
-        print StaticExample::$aNum;
-        print "Здравствуй, Мир!";
+        print StaticExample::$aNum . "\r\n";
+        print "Здравствуй, Мир!\r\n";
     }
 }

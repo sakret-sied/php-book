@@ -1,36 +1,36 @@
 <?php
 
-namespace Chapter03;
+namespace Chapter03\Classes;
 
-class CdProduct extends ShopProduct
+class BookProduct extends ShopProduct
 {
     /** @var int */
-    private int $playLength;
+    private int $numPages;
 
     /**
      * @param string $title
      * @param string $firstName
      * @param string $secondName
      * @param float $price
-     * @param int $playLength
+     * @param int $numPages
      */
     public function __construct(
         string $title,
         string $firstName,
         string $secondName,
         float $price,
-        int $playLength
+        int $numPages
     ) {
         parent::__construct($title, $firstName, $secondName, $price);
-        $this->playLength = $playLength;
+        $this->numPages = $numPages;
     }
 
     /**
      * @return int
      */
-    public function getPlayLength(): int
+    public function getNumberOfPages(): int
     {
-        return $this->playLength;
+        return $this->numPages;
     }
 
     /**
@@ -38,8 +38,14 @@ class CdProduct extends ShopProduct
      */
     public function getSummaryLine(): string
     {
-        $base = parent::getSummaryLine();
-        $base .= ": Время звучания - $this->playLength мин.";
-        return $base;
+        return parent::getSummaryLine() . ": $this->numPages стр.";
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice(): float
+    {
+        return $this->price;
     }
 }
