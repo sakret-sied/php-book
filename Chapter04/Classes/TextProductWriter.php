@@ -15,6 +15,6 @@ class TextProductWriter extends ShopProductWriter
             $str .= $shopProduct->getSummaryLine() . "\r\n";
         }
 
-        print $str;
+        echo $str;
     }
 }

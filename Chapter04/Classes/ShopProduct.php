@@ -86,4 +86,12 @@ class ShopProduct extends \Chapter03\Classes\ShopProduct implements Chargeable, 
     {
         return $this->price;
     }
+
+    /**
+     * @return float
+     */
+    protected function getTaxRate(): float
+    {
+        return 17;
+    }
 }

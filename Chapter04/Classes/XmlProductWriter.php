@@ -26,6 +26,6 @@ class XmlProductWriter extends ShopProductWriter
         $writer->endElement();
         $writer->endDocument();
 
-        print $writer->flush();
+        echo $writer->flush();
     }
 }

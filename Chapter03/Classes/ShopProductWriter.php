@@ -25,6 +25,6 @@ class ShopProductWriter
         foreach ($this->products as $product) {
             $str .= "{$product->getSummaryLine()} ({$product->getPrice()} руб.) <br />";
         }
-        print $str;
+        echo $str;
     }
 }

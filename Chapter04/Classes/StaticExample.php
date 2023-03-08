@@ -12,7 +12,7 @@ class StaticExample
      */
     public static function sayHello(): void
     {
-        print StaticExample::$aNum . "\r\n";
-        print "Здравствуй, Мир!\r\n";
+        echo StaticExample::$aNum . "\r\n";
+        echo "Здравствуй, Мир!\r\n";
     }
 }
