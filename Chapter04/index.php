@@ -2,7 +2,7 @@
 
 include('../autoload.php');
 
-use Chapter04\Classes\Conf;
+use Chapter04\Classes\Runner;
 use Chapter04\Classes\ShopProduct;
 use Chapter04\Classes\SpreadSheet;
 use Chapter04\Classes\StaticExample;
@@ -37,11 +37,7 @@ print_r(User::create());
 print_r(SpreadSheet::create());
 
 try {
-    $conf = new Conf(__DIR__ . '\Files\conf01.xml');
-    echo "user: {$conf->get('user')}\r\n";
-    echo "host: {$conf->get('host')}\r\n";
-    $conf->set('pass', 'my_pass');
-    $conf->write();
+    Runner::init();
 } catch (Exception $e) {
-    die($e->__toString());
+    // Полученное исключение
 }
