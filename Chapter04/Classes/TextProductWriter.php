@@ -2,6 +2,8 @@
 
 namespace Chapter04\Classes;
 
+use Classes\OutputHelper;
+
 class TextProductWriter extends ShopProductWriter
 {
     /**
@@ -12,7 +14,7 @@ class TextProductWriter extends ShopProductWriter
         $str = "ТОВАРЫ:\r\n";
         foreach ($this->products as $shopProduct)
         {
-            $str .= $shopProduct->getSummaryLine() . "\r\n";
+            $str .= $shopProduct->getSummaryLine() . OutputHelper::newLine();
         }
 
         echo $str;

@@ -44,7 +44,6 @@ class Conf
         if (!is_writable($this->file)) {
             throw new FileException("Файл '$this->file' недоступен для записи");
         }
-        // #improvements
         $dom = new DOMDocument('1.0');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;

@@ -2,6 +2,8 @@
 
 namespace Chapter04\Classes;
 
+use Classes\OutputHelper;
+
 class StaticExample
 {
     /** @var int */
@@ -12,7 +14,7 @@ class StaticExample
      */
     public static function sayHello(): void
     {
-        echo StaticExample::$aNum . "\r\n";
-        echo "Здравствуй, Мир!\r\n";
+        echo StaticExample::$aNum . OutputHelper::newLine();
+        echo 'Здравствуй, Мир!' . OutputHelper::newLine();
     }
 }
