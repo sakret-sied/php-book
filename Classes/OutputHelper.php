@@ -21,19 +21,44 @@ class OutputHelper
     /** @var string */
     public const NEW_LINE_HTML = "<br />";
 
+    /** @var string */
+    private static string $newLine = '';
+
     /**
-     * @param string $platform
+     * @param string $text
+     * @return void
+     */
+    public static function echoText(string $text = ''): void
+    {
+        echo $text . self::getNewLine();
+    }
+
+    /**
      * @return string
      */
-    public static function newLine(string $platform = self::WINDOWS): string
+    public static function getNewLine(): string
+    {
+        return self::$newLine;
+    }
+
+    /**
+     * @param string $platform
+     * @return void
+     */
+    public static function setNewLine(string $platform)
     {
         switch ($platform) {
             case self::WINDOWS:
-                return self::NEW_LINE_WINDOWS;
+                self::$newLine = self::NEW_LINE_WINDOWS;
+                break;
             case self::UNIX:
-                return self::NEW_LINE_UNIX;
+                self::$newLine = self::NEW_LINE_UNIX;
+                break;
             case self::HTML:
-                return self::NEW_LINE_HTML;
+                self::$newLine = self::NEW_LINE_HTML;
+                break;
+            default:
+                self::$newLine = '';
         }
     }
 
@@ -43,6 +68,6 @@ class OutputHelper
      */
     public static function loggerText(string $text): string
     {
-        return (new DateTime)->format(DateTimeInterface::RFC3339_EXTENDED) . ' ' . $text;
+        return (new DateTime)->format(DateTimeInterface::RFC3339_EXTENDED) . " $text" . self::getNewLine();
     }
 }

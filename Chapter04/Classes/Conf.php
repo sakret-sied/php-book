@@ -75,7 +75,7 @@ class Conf
         $matches = $this->xml->xpath("/conf/item[@name='$str']");
         if (count($matches)) {
             $this->lastMatch = $matches[0];
-            return (string)$matches[0];
+            return (string)$this->lastMatch;
         }
         return null;
     }

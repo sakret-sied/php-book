@@ -15,27 +15,27 @@ class Runner
     {
         try {
             $fh = fopen(__DIR__ . '\..\Files\log.txt', 'a');
-            fputs($fh, OutputHelper::loggerText('Начало' . OutputHelper::newLine()));
+            fputs($fh, OutputHelper::loggerText('Начало'));
             $conf = new Conf(__DIR__ . '\..\Files\conf.broken.xml');
-            echo "user: {$conf->get('user')}" . OutputHelper::newLine();
-            echo "host: {$conf->get('host')}" . OutputHelper::newLine();
+            OutputHelper::echoText("user: {$conf->get('user')}");
+            OutputHelper::echoText("host: {$conf->get('host')}");
             $conf->set('pass', 'my_pass');
             $conf->write();
         } catch (FileException $e) {
             // Файл не существует или недоступен
-            fputs($fh, OutputHelper::loggerText('Проблемы с файлом' . OutputHelper::newLine()));
+            fputs($fh, OutputHelper::loggerText('Проблемы с файлом'));
             throw $e;
         } catch (XmlException $e) {
             // Повреждённый XML-файл
-            fputs($fh, OutputHelper::loggerText('Проблемы с XML' . OutputHelper::newLine()));
+            fputs($fh, OutputHelper::loggerText('Проблемы с XML'));
         } catch (ConfException $e) {
             // Неверный формат XML-файла
-            fputs($fh, OutputHelper::loggerText('Проблемы с конфигурацией' . OutputHelper::newLine()));
+            fputs($fh, OutputHelper::loggerText('Проблемы с конфигурацией'));
         } catch (Exception $e) {
             // Ловушка: этот код не должен вызываться
-            fputs($fh, OutputHelper::loggerText('Непредвиденные проблемы' . OutputHelper::newLine()));
+            fputs($fh, OutputHelper::loggerText('Непредвиденные проблемы'));
         } finally {
-            fputs($fh, OutputHelper::loggerText('Конец' . OutputHelper::newLine()));
+            fputs($fh, OutputHelper::loggerText('Конец'));
             fclose($fh);
         }
     }

@@ -2,6 +2,7 @@
 
 include('../autoload.php');
 
+use Chapter04\Classes\Address;
 use Chapter04\Classes\Person;
 use Chapter04\Classes\Runner;
 use Chapter04\Classes\ShopProduct;
@@ -12,8 +13,10 @@ use Chapter04\Classes\UtilityService;
 use Chapter04\Interfaces\IdentityObject;
 use Classes\OutputHelper;
 
+OutputHelper::setNewLine(OutputHelper::WINDOWS);
+
 StaticExample::sayHello();
-echo OutputHelper::newLine();
+OutputHelper::echoText();
 
 //TODO: rewrite this part after initialization sql
 /*$dsn = 'sqlite:/' . __DIR__ . '/products.db';
@@ -28,16 +31,17 @@ function storeIdentityObject(IdentityObject $identityObject)
 
 $shopProduct = new ShopProduct('Нежное мыло', '', 'Ванная Боба', 1.33);
 storeIdentityObject($shopProduct);
-echo $shopProduct->calculateTax(100) . OutputHelper::newLine();
-echo $shopProduct->generateId() . OutputHelper::newLine();
-echo OutputHelper::newLine();
+OutputHelper::echoText($shopProduct->calculateTax(100));
+OutputHelper::echoText($shopProduct->generateId());
+OutputHelper::echoText();
 
 $utilityService = new UtilityService(100);
-echo $utilityService->getFinalPrice() . OutputHelper::newLine();
+OutputHelper::echoText($utilityService->getFinalPrice());
+OutputHelper::echoText();
 
 print_r(User::create());
 print_r(SpreadSheet::create());
-echo OutputHelper::newLine();
+OutputHelper::echoText();
 
 try {
     Runner::init();
@@ -47,5 +51,22 @@ try {
 
 $person = new Person();
 if (isset($person->name)) {
-    echo $person->name;
+    $person->name = 'Иван';
+    OutputHelper::echoText($person->name);
+    $person->writeName();
+    OutputHelper::echoText();
 }
+
+$address = new Address('441b Bakers Street');
+
+OutputHelper::echoText("Адрес: $address->streetAddress");
+$address = new Address('15', 'Albert Mews');
+OutputHelper::echoText("Адрес: $address->streetAddress");
+$address->streetAddress = '34, West 24th Avenue';
+OutputHelper::echoText("Адрес: $address->streetAddress");
+OutputHelper::echoText();
+
+$newPerson = new Person('Иван', 44);
+$newPerson->setId(343);
+unset($newPerson);
+OutputHelper::echoText();

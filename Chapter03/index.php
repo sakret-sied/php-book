@@ -5,6 +5,9 @@ include('../autoload.php');
 use Chapter03\Classes\BookProduct;
 use Chapter03\Classes\CdProduct;
 use Chapter03\Classes\ShopProductWriter;
+use Classes\OutputHelper;
+
+OutputHelper::setNewLine(OutputHelper::WINDOWS);
 
 $bookProduct = new BookProduct('Книга', 'Имя автора', 'Фамилия автора', 30, 700);
 $cdProduct = new CdProduct('Диск', 'Имя композитора', 'Фамилия композитора', 20, 60);

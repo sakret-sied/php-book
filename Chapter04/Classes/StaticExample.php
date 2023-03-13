@@ -14,7 +14,7 @@ class StaticExample
      */
     public static function sayHello(): void
     {
-        echo StaticExample::$aNum . OutputHelper::newLine();
-        echo 'Здравствуй, Мир!' . OutputHelper::newLine();
+        OutputHelper::echoText(StaticExample::$aNum);
+        OutputHelper::echoText('Здравствуй, Мир!');
     }
 }
