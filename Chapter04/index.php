@@ -2,15 +2,23 @@
 
 include('../autoload.php');
 
+use Chapter04\Classes\Account;
 use Chapter04\Classes\Address;
+use Chapter04\Classes\Mailer;
 use Chapter04\Classes\Person;
+use Chapter04\Classes\Person2;
+use Chapter04\Classes\ProcessSale;
+use Chapter04\Classes\Product;
 use Chapter04\Classes\Runner;
 use Chapter04\Classes\ShopProduct;
 use Chapter04\Classes\SpreadSheet;
 use Chapter04\Classes\StaticExample;
+use Chapter04\Classes\Totalizer;
+use Chapter04\Classes\Totalizer2;
 use Chapter04\Classes\User;
 use Chapter04\Classes\UtilityService;
 use Chapter04\Interfaces\IdentityObject;
+use Chapter04\Interfaces\PersonWriter;
 use Classes\OutputHelper;
 
 OutputHelper::setNewLine(OutputHelper::WINDOWS);
@@ -66,7 +74,52 @@ $address->streetAddress = '34, West 24th Avenue';
 OutputHelper::echoText("Адрес: $address->streetAddress");
 OutputHelper::echoText();
 
-$newPerson = new Person('Иван', 44);
+$newPerson = new Person('Иван', 44, new Account(200));
 $newPerson->setId(343);
-unset($newPerson);
+$newPerson2 = clone $newPerson;
+$newPerson->account->balance += 10;
+OutputHelper::echoText($newPerson2->account->balance);
 OutputHelper::echoText();
+
+$anotherPerson = new Person();
+OutputHelper::echoText($anotherPerson);
+OutputHelper::echoText();
+
+$logger = function (Product $product) {
+    OutputHelper::echoText("записываем $product->name");
+};
+$processor = new ProcessSale();
+try {
+    $processor->registerCallback($logger);
+    $processor->registerCallback([new Mailer(), 'doMail']);
+    $processor->registerCallback(Totalizer::warnAmount());
+    $processor->registerCallback(Totalizer2::warnAmount(8));
+} catch (Exception $exception) {
+}
+$processor->sale(new Product('Туфли', 6));
+$processor->sale(new Product('Кофе', 6));
+
+$person2 = new Person2();
+$person2->output(
+    new class ('Files/person.txt') implements PersonWriter {
+        /** @var string */
+        private string $path;
+
+        /**
+         * @param string $path
+         */
+        public function __construct(string $path)
+        {
+            $this->path = $path;
+        }
+
+        /**
+         * @param Person2 $person2
+         * @return void
+         */
+        public function write(Person2 $person2)
+        {
+            file_put_contents($this->path, "{$person2->getName()} {$person2->getAge()}");
+        }
+    }
+);

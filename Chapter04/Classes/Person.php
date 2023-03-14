@@ -2,6 +2,7 @@
 
 namespace Chapter04\Classes;
 
+use Chapter04\Traits\PersonBasic;
 use Classes\OutputHelper;
 
 /**
@@ -16,9 +17,12 @@ use Classes\OutputHelper;
  */
 class Person
 {
+    use PersonBasic;
+
+    /** @var Account|null */
+    public ?Account $account;
     /** @var PersonWriter */
     private PersonWriter $writer;
-
     /** @var string|null */
     private ?string $_name;
     /** @var int|null */
@@ -29,12 +33,14 @@ class Person
     /**
      * @param string|null $name
      * @param int|null $age
+     * @param $account
      */
-    public function __construct(?string $name = null, ?int $age = null)
+    public function __construct(?string $name = null, ?int $age = null, $account = null)
     {
         $this->writer = new PersonWriter();
         $this->name = $name;
         $this->age = $age;
+        $this->account = $account;
     }
 
     public function __destruct()
@@ -43,6 +49,25 @@ class Person
             // сохранить данные из экземпляра класса Person
             OutputHelper::echoText('Сохранение персональных данных');
         }
+    }
+
+    /**
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->id = 0;
+        $this->account = clone $this->account;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $desc = $this->getName();
+        $desc .= " (возраст {$this->getAge()} лет)";
+        return $desc;
     }
 
     /**
@@ -109,36 +134,12 @@ class Person
     }
 
     /**
-     * @return void
-     */
-    public function __clone()
-    {
-        $this->id = 0;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return 'Иван';
-    }
-
-    /**
      * @param string|null $name
      * @return void
      */
     public function setName(?string $name): void
     {
         $this->_name = mb_strtoupper($name);
-    }
-
-    /**
-     * @return int
-     */
-    public function getAge(): int
-    {
-        return 44;
     }
 
     /**
