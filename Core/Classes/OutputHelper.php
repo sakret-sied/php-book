@@ -7,30 +7,22 @@ use DateTimeInterface;
 
 class OutputHelper
 {
-    /** @var string */
-    private static string $saved = '';
+    /** @var bool */
+    private static bool $saveMode = false;
+    /** @var array */
+    private static array $text = [];
 
     /**
      * @param string $text
-     * @param bool $save
      * @return void
      */
-    public static function echoText(string $text = '', bool $save = false): void
+    public static function echoText(string $text = ''): void
     {
-        $text .= PHP_EOL;
-        if ($save) {
-            self::$saved .= $text;
+        if (self::$saveMode) {
+            self::$text[] = $text;
         } else {
-            echo $text;
+            echo $text . PHP_EOL;
         }
-    }
-
-    /**
-     * @return void
-     */
-    public static function echoSaved($replaceNewLine = false)
-    {
-        echo $replaceNewLine ? str_replace(PHP_EOL, '<br>', self::$saved) : self::$saved;
     }
 
     /**
@@ -40,5 +32,21 @@ class OutputHelper
     public static function loggerText(string $text): string
     {
         return (new DateTime)->format(DateTimeInterface::RFC3339_EXTENDED) . " $text" . PHP_EOL;
+    }
+
+    /**
+     * @param bool $saveMode
+     */
+    public static function setSaveMode(bool $saveMode): void
+    {
+        self::$saveMode = $saveMode;
+    }
+
+    /**
+     * @return void
+     */
+    public static function echoSaved($htmlNewLine = false)
+    {
+        echo implode($htmlNewLine ? '<br>' : PHP_EOL, self::$text);
     }
 }

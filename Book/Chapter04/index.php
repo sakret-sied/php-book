@@ -1,6 +1,6 @@
 <?php
 
-include '../../autoload.php';
+require_once '../../autoload.php';
 
 use Book\Chapter04\Classes\Account;
 use Book\Chapter04\Classes\Address;

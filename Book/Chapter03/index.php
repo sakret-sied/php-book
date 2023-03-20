@@ -1,6 +1,6 @@
 <?php
 
-include '../../autoload.php';
+require_once '../../autoload.php';
 
 use Book\Chapter03\Classes\BookProduct;
 use Book\Chapter03\Classes\CdProduct;
