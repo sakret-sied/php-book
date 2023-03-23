@@ -37,7 +37,7 @@ class ShopProduct extends \Book\Chapter03\Classes\ShopProduct implements Chargea
             return null;
         }
         switch ($row['type'] ?? '') {
-            case 'book':
+            case 'Book':
                 $product = new BookProduct(
                     $row['title'],
                     $row['first_name'],

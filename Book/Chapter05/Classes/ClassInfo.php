@@ -5,79 +5,118 @@ namespace Book\Chapter05\Classes;
 use Core\Classes\OutputHelper;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
 
 class ClassInfo
 {
     /**
      * @param ReflectionClass $class
+     * @param string $address
      * @return void
      */
-    public static function getData(ReflectionClass $class): void
+    public static function echoClassData(ReflectionClass $class, string $address = OutputHelper::DEFAULT_ADDRESS): void
     {
-        $name = $class->getName();
+        $info = '';
+        OutputHelper::setAddress($address);
+        OutputHelper::echoText($class->getName());
+        OutputHelper::echoText('----');
         if ($class->isUserDefined()) {
-            OutputHelper::echoText("$name -- определён пользователем");
+            OutputHelper::echoText("{$info}определён пользователем");
         }
         if ($class->isInternal()) {
-            OutputHelper::echoText("$name -- встроенный класс");
+            OutputHelper::echoText("{$info}встроенный класс");
         }
         if ($class->isInterface()) {
-            OutputHelper::echoText("$name -- интерфейс");
+            OutputHelper::echoText("{$info}интерфейс");
         }
         if ($class->isAbstract()) {
-            OutputHelper::echoText("$name -- абстрактный класс");
+            OutputHelper::echoText("{$info}абстрактный класс");
         }
         if ($class->isFinal()) {
-            OutputHelper::echoText("$name -- завершённый класс");
+            OutputHelper::echoText("{$info}завершённый класс");
         }
         if ($class->isInstantiable()) {
-            OutputHelper::echoText("$name -- можно создать экземпляр класса");
+            OutputHelper::echoText("{$info}можно создать экземпляр класса");
         } else {
-            OutputHelper::echoText("$name -- нельзя создать экземпляр класса");
+            OutputHelper::echoText("{$info}нельзя создать экземпляр класса");
         }
         if ($class->isCloneable()) {
-            OutputHelper::echoText("$name -- можно клонировать");
+            OutputHelper::echoText("{$info}можно клонировать");
         } else {
-            OutputHelper::echoText("$name -- нельзя клонировать");
+            OutputHelper::echoText("{$info}нельзя клонировать");
         }
+        OutputHelper::echoText();
     }
 
     /**
      * @param ReflectionMethod $method
+     * @param string $address
      * @return void
      */
-    public static function methodData(ReflectionMethod $method): void
+    public static function echoMethodData(ReflectionMethod $method, string $address = OutputHelper::DEFAULT_ADDRESS): void
     {
-        $name = $method->getName();
+        $info = '';
+        OutputHelper::setAddress($address);
+        OutputHelper::echoText("{$method->getName()}()");
+        OutputHelper::echoText('----');
         if ($method->isUserDefined()) {
-            OutputHelper::echoText("$name -- определён пользователем");
+            OutputHelper::echoText("{$info}определён пользователем");
         }
         if ($method->isInternal()) {
-            OutputHelper::echoText("$name -- встроенный метод");
+            OutputHelper::echoText("{$info}встроенный метод");
         }
         if ($method->isAbstract()) {
-            OutputHelper::echoText("$name -- абстрактный метод");
+            OutputHelper::echoText("{$info}абстрактный метод");
         }
         if ($method->isPublic()) {
-            OutputHelper::echoText("$name -- открытый метод");
+            OutputHelper::echoText("{$info}открытый метод");
         }
         if ($method->isProtected()) {
-            OutputHelper::echoText("$name -- защищённый метод");
+            OutputHelper::echoText("{$info}защищённый метод");
         }
         if ($method->isPrivate()) {
-            OutputHelper::echoText("$name -- закрытый метод");
+            OutputHelper::echoText("{$info}закрытый метод");
         }
         if ($method->isStatic()) {
-            OutputHelper::echoText("$name -- статический метод");
+            OutputHelper::echoText("{$info}статический метод");
         }
         if ($method->isFinal()) {
-            OutputHelper::echoText("$name -- завершённый метод");
+            OutputHelper::echoText("{$info}завершённый метод");
         }
         if ($method->isConstructor()) {
-            OutputHelper::echoText("$name -- конструктор");
+            OutputHelper::echoText("{$info}конструктор");
         }
         if ($method->returnsReference()) {
-            OutputHelper::echoText("$name -- возвращает ссылку, а не значение");
+            OutputHelper::echoText("{$info}возвращает ссылку, а не значение");
         }
+        OutputHelper::echoText();
+    }
+
+    /**
+     * @param ReflectionParameter $parameter
+     * @param string $address
+     * @return void
+     */
+    public static function echoParameterData(ReflectionParameter $parameter, string $address = OutputHelper::DEFAULT_ADDRESS): void
+    {
+        $info = '';
+        OutputHelper::setAddress($address);
+        OutputHelper::echoText("\${$parameter->getName()}");
+        OutputHelper::echoText('----');
+        OutputHelper::echoText("{$info}расположен в позиции {$parameter->getPosition()}");
+        $class = $parameter->getClass();
+        if (!empty($class)) {
+            OutputHelper::echoText("{$info}должно быть объектом типа {$class->getName()}");
+        }
+        if ($parameter->isPassedByReference()) {
+            OutputHelper::echoText("{$info}передан по ссылке");
+        }
+        if ($parameter->isDefaultValueAvailable()) {
+            OutputHelper::echoText("{$info}имеет стандартное значение {$parameter->getDefaultValue()}");
+        }
+        if ($parameter->allowsNull()) {
+            OutputHelper::echoText("{$info}может быть null");
+        }
+        OutputHelper::echoText();
     }
 }

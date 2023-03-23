@@ -9,6 +9,7 @@ class OutputHelper
 {
     /** @var string */
     public const DEFAULT_ADDRESS = 'main';
+
     /** @var array */
     public static array $text = [self::DEFAULT_ADDRESS => []];
     /** @var bool */
@@ -17,7 +18,7 @@ class OutputHelper
     private static string $address = self::DEFAULT_ADDRESS;
 
     /** @var bool */
-    private static bool $htmlNewLine = false;
+    private static bool $isHtml = false;
 
     /**
      * @param string $text
@@ -30,9 +31,10 @@ class OutputHelper
 
     /**
      * @param string $text
+     * @param int $numberOfNewLines
      * @return void
      */
-    public static function echoText(string $text = ''): void
+    public static function echoText(string $text = '', int $numberOfNewLines = 1): void
     {
         if (self::$saveMode) {
             if (!isset(self::$text[self::$address])) {
@@ -40,9 +42,28 @@ class OutputHelper
                 self::$text[self::DEFAULT_ADDRESS][self::$address] =& self::$text[self::$address];
             }
             self::$text[self::$address][] = $text;
+            while (--$numberOfNewLines > 0) {
+                self::$text[self::$address][] = '';
+            }
         } else {
-            echo $text . self::getNewLine();
+            $newLine = self::getNewLine();
+            echo $text . str_repeat($newLine, $numberOfNewLines);
         }
+    }
+
+    /**
+     * @param mixed $value
+     * @return void
+     */
+    public static function printR($value, int $numberOfNewLines = 1)
+    {
+        $text = '';
+        if (self::$saveMode) {
+            $text = (self::$isHtml ? '<pre>' : '') . print_r($value, true) . (self::$isHtml ? '</pre>' : '');
+        } else {
+            print_r($value);
+        }
+        OutputHelper::echoText($text, $numberOfNewLines);
     }
 
     /**
@@ -71,11 +92,11 @@ class OutputHelper
     }
 
     /**
-     * @param bool $htmlNewLine
+     * @param bool $isHtml
      */
-    public static function setHtmlNewLine(bool $htmlNewLine): void
+    public static function setIsHtml(bool $isHtml): void
     {
-        self::$htmlNewLine = $htmlNewLine;
+        self::$isHtml = $isHtml;
     }
 
     /**
@@ -101,6 +122,6 @@ class OutputHelper
      */
     private static function getNewLine(): string
     {
-        return self::$htmlNewLine ? '<br>' : PHP_EOL;
+        return self::$isHtml ? '<br>' : PHP_EOL;
     }
 }

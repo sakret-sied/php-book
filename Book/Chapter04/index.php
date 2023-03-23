@@ -19,10 +19,13 @@ use Book\Chapter04\Classes\User;
 use Book\Chapter04\Classes\UtilityService;
 use Book\Chapter04\Interfaces\IdentityObject;
 use Book\Chapter04\Interfaces\PersonWriter;
+use Core\Classes\Config;
 use Core\Classes\OutputHelper;
 
+OutputHelper::setSaveMode(Config::OUTPUT_HELPER_SAVE_MODE);
+OutputHelper::setIsHtml(Config::OUTPUT_HELPER_IS_HTML);
+
 StaticExample::sayHello();
-OutputHelper::echoText();
 
 //TODO: rewrite this part after initialization sql
 /*$dsn = 'sqlite:/' . __DIR__ . '/products.db';
@@ -38,16 +41,13 @@ function storeIdentityObject(IdentityObject $identityObject)
 $shopProduct = new ShopProduct('Нежное мыло', '', 'Ванная Боба', 1.33);
 storeIdentityObject($shopProduct);
 OutputHelper::echoText($shopProduct->calculateTax(100));
-OutputHelper::echoText($shopProduct->generateId());
-OutputHelper::echoText();
+OutputHelper::echoText($shopProduct->generateId(), 2);
 
 $utilityService = new UtilityService(100);
-OutputHelper::echoText($utilityService->getFinalPrice());
-OutputHelper::echoText();
+OutputHelper::echoText($utilityService->getFinalPrice(), 2);
 
-print_r(User::create());
-print_r(SpreadSheet::create());
-OutputHelper::echoText();
+OutputHelper::printR(User::create());
+OutputHelper::printR(SpreadSheet::create(), 2);
 
 try {
     Runner::init();
@@ -69,19 +69,16 @@ OutputHelper::echoText("Адрес: $address->streetAddress");
 $address = new Address('15', 'Albert Mews');
 OutputHelper::echoText("Адрес: $address->streetAddress");
 $address->streetAddress = '34, West 24th Avenue';
-OutputHelper::echoText("Адрес: $address->streetAddress");
-OutputHelper::echoText();
+OutputHelper::echoText("Адрес: $address->streetAddress", 2);
 
 $newPerson = new Person('Иван', 44, new Account(200));
 $newPerson->setId(343);
 $newPerson2 = clone $newPerson;
 $newPerson->account->balance += 10;
-OutputHelper::echoText($newPerson2->account->balance);
-OutputHelper::echoText();
+OutputHelper::echoText($newPerson2->account->balance, 2);
 
 $anotherPerson = new Person();
-OutputHelper::echoText($anotherPerson);
-OutputHelper::echoText();
+OutputHelper::echoText($anotherPerson, 2);
 
 $logger = function (Product $product) {
     OutputHelper::echoText("записываем $product->name");
@@ -121,3 +118,5 @@ $person2->output(
         }
     }
 );
+
+OutputHelper::echoSaved();

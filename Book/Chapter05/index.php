@@ -1,55 +1,40 @@
 <?php
 
-namespace Book\Chapter05;
+require_once '../../autoload.php';
 
 use Book\Chapter03\Classes\CdProduct;
 use Book\Chapter05\Classes\ClassInfo;
+use Book\Chapter05\Classes\ModuleRunner;
 use Book\Chapter05\Classes\Product;
 use Book\Chapter05\Classes\ReflectionUtil;
-use Book\Chapter05\Tasks\Task;
+use Core\Classes\Config;
 use Core\Classes\OutputHelper;
-use Exception;
-use ReflectionClass;
 
-$base = __DIR__;
-$className = 'Task';
-$path = "$base\Tasks\\$className.php";
-if (!file_exists($path)) {
-    throw new Exception("Файл не найден: $path");
-}
-require_once $path;
-$qClassName = __NAMESPACE__ . "\Tasks\\$className";
-if (!class_exists($qClassName)) {
-    throw new Exception("Файл не найден: $qClassName");
-}
+OutputHelper::setSaveMode(Config::OUTPUT_HELPER_SAVE_MODE);
+OutputHelper::setIsHtml(Config::OUTPUT_HELPER_IS_HTML);
 
-require_once '../../autoload.php';
-OutputHelper::setSaveMode(true);
-
-/** @var Task $myObject */
+$qClassName = '\Book\Chapter05\Tasks\Task';
 $myObject = new $qClassName();
 $myObject->doSpeak();
-
-//print_r(get_declared_classes());
 
 $cdProduct = Product::getCdProduct();
 if ($cdProduct instanceof CdProduct) {
     OutputHelper::echoText('$product является объектом класса CdProduct');
 }
-OutputHelper::echoText(CdProduct::class);
+OutputHelper::echoText(CdProduct::class, 2);
 
 $method = 'getTitle';
 if (in_array($method, get_class_methods($cdProduct))) {
-    OutputHelper::echoText($cdProduct->$method());
+    $cdProduct->$method();
 }
 if (method_exists($cdProduct, $method)) {
-    OutputHelper::echoText($cdProduct->$method());
+    $cdProduct->$method();
 }
 if (is_callable([$cdProduct, $method])) {
-    OutputHelper::echoText($cdProduct->$method());
+    $cdProduct->$method();
 }
 
-print_r(get_class_vars('\Book\Chapter05\Classes\Product'));
+OutputHelper::printR(get_class_vars('\Book\Chapter05\Classes\Product'));
 OutputHelper::echoText(get_parent_class('\Book\Chapter03\Classes\BookProduct'));
 
 $bookProduct = Product::getBookProduct();
@@ -65,19 +50,40 @@ call_user_func([$bookProduct, 'setDiscount'], 20);
 OutputHelper::echoText();
 
 $cdProductReflection = new ReflectionClass('\Book\Chapter03\Classes\CdProduct');
-OutputHelper::setAddress('reflectionClass');
-ClassInfo::getData($cdProductReflection);
+ClassInfo::echoClassData($cdProductReflection, 'reflectionClass');
 
-OutputHelper::echoText(ReflectionUtil::getClassSource($cdProductReflection));
-OutputHelper::echoText();
+OutputHelper::echoText('', 3);
+OutputHelper::echoText(
+    Config::OUTPUT_HELPER_IS_HTML
+        ? str_replace(PHP_EOL, '<br>', ReflectionUtil::getClassSource($cdProductReflection))
+        : ReflectionUtil::getClassSource($cdProductReflection),
+    4
+);
 
 $methods = $cdProductReflection->getMethods();
 foreach ($methods as $method) {
-    OutputHelper::setAddress($method->getName());
-    OutputHelper::echoText('----');
-    ClassInfo::methodData($method);
-    OutputHelper::echoText();
+    ClassInfo::echoMethodData($method, $method->getName());
 }
 
-OutputHelper::echoText();
+$getSummaryLine = $cdProductReflection->getMethod('GetSummaryLine');
+OutputHelper::echoText('', 3);
+OutputHelper::echoText(
+    Config::OUTPUT_HELPER_IS_HTML
+        ? str_replace(PHP_EOL, '<br>', ReflectionUtil::getMethodSource($getSummaryLine))
+        : ReflectionUtil::getMethodSource($getSummaryLine),
+    4
+);
+
+$construct = $cdProductReflection->getMethod('__construct');
+$parameters = $construct->getParameters();
+foreach ($parameters as $parameter) {
+    ClassInfo::echoParameterData($parameter);
+}
+
+$test = new ModuleRunner();
+try {
+    $test->init()->execute();
+} catch (ReflectionException|Exception $e) {
+}
+
 OutputHelper::echoSaved();

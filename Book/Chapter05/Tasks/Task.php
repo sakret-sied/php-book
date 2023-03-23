@@ -11,6 +11,6 @@ class Task
      */
     public function doSpeak(): void
     {
-        OutputHelper::echoText('Привет');
+        OutputHelper::echoText('Привет', 2);
     }
 }

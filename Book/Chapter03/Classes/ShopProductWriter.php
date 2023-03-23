@@ -2,6 +2,8 @@
 
 namespace Book\Chapter03\Classes;
 
+use Core\Classes\OutputHelper;
+
 class ShopProductWriter
 {
     /** @var ShopProduct[] */
@@ -21,11 +23,8 @@ class ShopProductWriter
      */
     public function write(): void
     {
-        $str = '';
-
         foreach ($this->products as $product) {
-            $str .= "{$product->getSummaryLine()} ({$product->getPrice()} руб.) " . PHP_EOL;
+            OutputHelper::echoText("{$product->getSummaryLine()} ({$product->getPrice()} руб.) ");
         }
-        echo $str;
     }
 }
