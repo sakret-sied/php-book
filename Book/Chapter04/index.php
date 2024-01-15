@@ -19,19 +19,13 @@ use Book\Chapter04\Classes\User;
 use Book\Chapter04\Classes\UtilityService;
 use Book\Chapter04\Interfaces\IdentityObject;
 use Book\Chapter04\Interfaces\PersonWriter;
-use Core\Classes\Config;
 use Core\Classes\OutputHelper;
+use Core\Configs\Config;
 
-OutputHelper::setSaveMode(Config::OUTPUT_HELPER_SAVE_MODE);
+OutputHelper::setIsSaveMode(Config::OUTPUT_HELPER_IS_SAVE_MODE);
 OutputHelper::setIsHtml(Config::OUTPUT_HELPER_IS_HTML);
 
 StaticExample::sayHello();
-
-//TODO: rewrite this part after initialization sql
-/*$dsn = 'sqlite:/' . __DIR__ . '/products.db';
-$pdo = new PDO($dsn, null, null);
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$obj = ShopProduct::getInstance(1, $pdo);*/
 
 function storeIdentityObject(IdentityObject $identityObject)
 {

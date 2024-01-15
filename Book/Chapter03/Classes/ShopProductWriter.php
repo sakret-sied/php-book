@@ -24,7 +24,7 @@ class ShopProductWriter
     public function write(): void
     {
         foreach ($this->products as $product) {
-            OutputHelper::echoText("{$product->getSummaryLine()} ({$product->getPrice()} руб.) ");
+            OutputHelper::echoText("{$product->getSummaryLine()} ({$product->getPrice()} руб.)");
         }
     }
 }

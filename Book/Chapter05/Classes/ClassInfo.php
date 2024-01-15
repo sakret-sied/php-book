@@ -16,10 +16,10 @@ class ClassInfo
      */
     public static function echoClassData(ReflectionClass $class, string $address = OutputHelper::DEFAULT_ADDRESS): void
     {
+        $prevAddress = OutputHelper::getAddress();
         $info = '';
         OutputHelper::setAddress($address);
         OutputHelper::echoText($class->getName());
-        OutputHelper::echoText('----');
         if ($class->isUserDefined()) {
             OutputHelper::echoText("{$info}определён пользователем");
         }
@@ -46,6 +46,7 @@ class ClassInfo
             OutputHelper::echoText("{$info}нельзя клонировать");
         }
         OutputHelper::echoText();
+        OutputHelper::setAddress($prevAddress);
     }
 
     /**
@@ -55,10 +56,10 @@ class ClassInfo
      */
     public static function echoMethodData(ReflectionMethod $method, string $address = OutputHelper::DEFAULT_ADDRESS): void
     {
+        $prevAddress = OutputHelper::getAddress();
         $info = '';
         OutputHelper::setAddress($address);
         OutputHelper::echoText("{$method->getName()}()");
-        OutputHelper::echoText('----');
         if ($method->isUserDefined()) {
             OutputHelper::echoText("{$info}определён пользователем");
         }
@@ -90,6 +91,7 @@ class ClassInfo
             OutputHelper::echoText("{$info}возвращает ссылку, а не значение");
         }
         OutputHelper::echoText();
+        OutputHelper::setAddress($prevAddress);
     }
 
     /**
@@ -99,10 +101,10 @@ class ClassInfo
      */
     public static function echoParameterData(ReflectionParameter $parameter, string $address = OutputHelper::DEFAULT_ADDRESS): void
     {
+        $prevAddress = OutputHelper::getAddress();
         $info = '';
         OutputHelper::setAddress($address);
         OutputHelper::echoText("\${$parameter->getName()}");
-        OutputHelper::echoText('----');
         OutputHelper::echoText("{$info}расположен в позиции {$parameter->getPosition()}");
         $class = $parameter->getClass();
         if (!empty($class)) {
@@ -118,5 +120,6 @@ class ClassInfo
             OutputHelper::echoText("{$info}может быть null");
         }
         OutputHelper::echoText();
+        OutputHelper::setAddress($prevAddress);
     }
 }

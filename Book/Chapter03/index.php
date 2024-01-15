@@ -5,10 +5,10 @@ require_once '../../autoload.php';
 use Book\Chapter03\Classes\BookProduct;
 use Book\Chapter03\Classes\CdProduct;
 use Book\Chapter03\Classes\ShopProductWriter;
-use Core\Classes\Config;
 use Core\Classes\OutputHelper;
+use Core\Configs\Config;
 
-OutputHelper::setSaveMode(Config::OUTPUT_HELPER_SAVE_MODE);
+OutputHelper::setIsSaveMode(Config::OUTPUT_HELPER_IS_SAVE_MODE);
 OutputHelper::setIsHtml(Config::OUTPUT_HELPER_IS_HTML);
 
 $bookProduct = new BookProduct('Книга', 'Имя автора', 'Фамилия автора', 30, 700);

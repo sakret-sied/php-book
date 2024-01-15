@@ -7,10 +7,10 @@ use Book\Chapter05\Classes\ClassInfo;
 use Book\Chapter05\Classes\ModuleRunner;
 use Book\Chapter05\Classes\Product;
 use Book\Chapter05\Classes\ReflectionUtil;
-use Core\Classes\Config;
 use Core\Classes\OutputHelper;
+use Core\Configs\Config;
 
-OutputHelper::setSaveMode(Config::OUTPUT_HELPER_SAVE_MODE);
+OutputHelper::setIsSaveMode(Config::OUTPUT_HELPER_IS_SAVE_MODE);
 OutputHelper::setIsHtml(Config::OUTPUT_HELPER_IS_HTML);
 
 $qClassName = '\Book\Chapter05\Tasks\Task';
@@ -52,12 +52,12 @@ OutputHelper::echoText();
 $cdProductReflection = new ReflectionClass('\Book\Chapter03\Classes\CdProduct');
 ClassInfo::echoClassData($cdProductReflection, 'reflectionClass');
 
-OutputHelper::echoText('', 3);
+OutputHelper::echoText();
 OutputHelper::echoText(
     Config::OUTPUT_HELPER_IS_HTML
         ? str_replace(PHP_EOL, '<br>', ReflectionUtil::getClassSource($cdProductReflection))
         : ReflectionUtil::getClassSource($cdProductReflection),
-    4
+    2
 );
 
 $methods = $cdProductReflection->getMethods();
@@ -66,7 +66,7 @@ foreach ($methods as $method) {
 }
 
 $getSummaryLine = $cdProductReflection->getMethod('GetSummaryLine');
-OutputHelper::echoText('', 3);
+OutputHelper::echoText();
 OutputHelper::echoText(
     Config::OUTPUT_HELPER_IS_HTML
         ? str_replace(PHP_EOL, '<br>', ReflectionUtil::getMethodSource($getSummaryLine))
